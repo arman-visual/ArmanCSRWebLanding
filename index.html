@@ -141,9 +141,9 @@
                         <div class="g-margin-b-30--xs">
                             <h1 class="g-font-size-35--xs g-font-size-45--sm g-font-size-55--md g-color--white">AAA Mobile Experience<br>That Inspires Travel</h1>
                         </div>
-                        <a class="js__popup__youtube" href="https://www.youtube.com/embed/-Uv7Sg1aFk4" title="Intro Video">
+                        <a href="javascript:void(0);" onclick="openVideo()" title="Intro Video">
                             <i class="s-icon s-icon--lg s-icon--white-bg g-radius--circle ti-control-play"></i>
-                        </a>
+                        </a> 
                     </div>
                 </div>
                 <div class="g-fullheight--xs g-bg-position--center swiper-slide" style="background: url('img/1920x1080/01.jpg');">
@@ -152,9 +152,9 @@
                             <div class="g-margin-b-30--xs">
                                 <h2 class="g-font-size-35--xs g-font-size-45--sm g-font-size-55--md g-color--white">We Craft Experience<br>That Help Brands<br>Stand Out</h2>
                             </div>
-                            <a class="js__popup__youtube" href="https://www.youtube.com/embed/-Uv7Sg1aFk4" title="Intro Video">
+                            <a href="javascript:void(0);" onclick="openVideo()" title="Intro Video">
                                 <i class="s-icon s-icon--lg s-icon--white-bg g-radius--circle ti-control-play"></i>
-                            </a>
+                            </a> 
                         </div>
                     </div>
                 </div>
@@ -799,6 +799,74 @@
         <script type="text/javascript" src="js/components/google-map.min.js"></script>
         <script type="text/javascript" src="js/components/wow.min.js"></script>
         <!--========== END JAVASCRIPTS ==========-->
+
+        <!-- Youtube video modal -->
+        <div id="youtube-video-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        
+        <div class="modal-body">
+        <div class="video-container">
+            <iframe id="youtube-iframe" width="100%" height="515" src="https://www.youtube.com/embed/-Uv7Sg1aFk4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        </div>
+        
+        </div>
+
+        </div>
+        </div>
+        <!-- Youtube video modal -->
+
+        <script>
+        function openVideo() {
+            $('#youtube-video-modal').modal('show');
+        }
+
+        $('#youtube-video-modal').on('hidden.bs.modal', function (e) {
+            // Detener el video al cerrar el modal
+            $("#youtube-iframe").attr('src', $("#youtube-iframe").attr('src'));
+        })
+
+        </script>
+
+
+<style>
+/* Estilos para el modal */
+#youtube-video-modal .modal-dialog {
+    width: 100%;
+    max-width: 90%; /* Ajusta este valor según tus necesidades */
+    margin: 0 auto;
+}
+
+#youtube-video-modal .modal-content {
+    background-color: transparent; /* Elimina el fondo blanco */
+    border: none; /* Elimina el borde del modal */
+}
+
+/* Estilos para el contenedor del video (responsive) */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-top: 0;
+    height: 0;
+    overflow: hidden;
+    
+    /* Asegura que el contenedor ocupe todo el ancho disponible */
+    width: 100%;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Asegura que el iframe ocupe todo el contenedor */
+    width: 100%;
+    height: 100%;
+}
+</style>
+
 
     </body>
     <!-- End Body -->
