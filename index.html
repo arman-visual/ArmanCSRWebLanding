@@ -1,805 +1,1612 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-    <!-- Begin Head -->
-    <head>
-        <!-- Basic -->
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Megakit - HTML5 Theme</title>
-        <meta name="keywords" content="HTML5 Theme" />
-        <meta name="description" content="Megakit - HTML5 Theme">
-        <meta name="author" content="keenthemes.com">
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amplivo | Activos de Plástico Circular</title>
+    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Lucide Icons --><script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Carga de Chart.js (NUEVO) --><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Iconos de Font Awesome (NUEVO - para las tarjetas de impacto) --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Configuración de la fuente Inter y estilos base */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc; /* Gris muy claro */
+            /* NUEVO: Permite el desplazamiento suave en toda la página */
+            scroll-behavior: smooth; 
+        }
 
-        <!-- Web Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i|Montserrat:400,700" rel="stylesheet">
+        /* ****************************************************** */
+        /* CARRUSEL DE TESTIMONIOS (MODIFICADO) */
+        /* ****************************************************** */
+        .carousel-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            /* MODIFICADO: Permite el scroll horizontal (swipe) */
+            overflow-x: auto; 
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        /* NUEVO: Ocultar barra de desplazamiento para Chrome, Safari y Opera */
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel-item {
+            flex: 0 0 100%; /* Ocupa el 100% en móvil */
+            scroll-snap-align: start;
+        }
+        @media (min-width: 768px) {
+            .carousel-item {
+                flex: 0 0 45%; /* Ocupa el 45% en escritorio */
+            }
+        }
 
-        <!-- Vendor Styles -->
-        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="css/animate.css" rel="stylesheet" type="text/css"/>
-        <link href="vendor/themify/themify.css" rel="stylesheet" type="text/css"/>
-        <link href="vendor/scrollbar/scrollbar.min.css" rel="stylesheet" type="text/css"/>
-        <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css"/>
-        <link href="vendor/swiper/swiper.min.css" rel="stylesheet" type="text/css"/>
-        <link href="vendor/cubeportfolio/css/cubeportfolio.min.css" rel="stylesheet" type="text/css"/>
+        /* ****************************************************** */
+        /* ESTILOS NUEVOS PARA GRÁFICOS Y CARRUSEL DE DATOS */
+        /* ****************************************************** */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none; /* IE y Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .snap-container {
+            scroll-snap-type: x mandatory;
+        }
+        .snap-slide {
+            scroll-snap-align: start;
+        }
 
-        <!-- Theme Styles -->
-        <link href="css/style.css" rel="stylesheet" type="text/css"/>
-        <link href="css/global/global.css" rel="stylesheet" type="text/css"/>
+        
+        /* ****************************************************** */
+        /* CARRUSEL DE PROYECCIONES (ESTILOS EXISTENTES) - (AHORA OBSOLETO PERO MANTENIDO POR SI ACASO) */
+        /* ****************************************************** */
+        #priceCarousel {
+            overflow-x: auto; /* MODIFICADO: Permite el scroll horizontal (swipe) */
+            -webkit-overflow-scrolling: touch; /* AÑADIDO: para swipe en iOS */
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            background-color: #1f2937; /* bg-gray-800 */
+        }
+        #priceCarousel::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel-slide {
+            flex: 0 0 100%; /* Cada slide ocupa el 100% del contenedor */
+            scroll-snap-align: start;
+            min-height: 500px; /* Altura mínima para que el contenido se vea */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-        <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-    </head>
-    <!-- End Head -->
+        /* ****************************************************** */
+        /* ACORDEÓN (FAQ) */
+        /* ****************************************************** */
+        .faq-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+        /* Clase para el icono de FAQ */
+        .rotate-45 {
+            transform: rotate(45deg);
+        }
+        /* Clase para la transición del contenido (AÑADIDA) */
+        .faq-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        .faq-content.open {
+            max-height: 1000px; /* Suficientemente grande para cualquier contenido */
+            opacity: 1;
+        }
+        
+        /* ****************************************************** */
+        /* CLASE PERSONALIZADA PARA EL EFECTO DE GLOW EN BOTONES */
+        /* ****************************************************** */
+        .cta-glow-effect {
+            transition: all 0.3s ease-in-out;
+        }
+        .cta-glow-effect:hover {
+            /* Sombra luminosa fuerte color esmeralda */
+            box-shadow: 0 0 25px rgba(5, 150, 105, 0.9), 0 0 15px rgba(5, 150, 105, 0.6); 
+            transform: scale(1.05); /* Escala ligeramente el botón */
+        }
+        
+        /* ****************************************************** */
+        /* CLASES PERSONALIZADAS PARA EL DOBLE VALOR */
+        /* ****************************************************** */
+        .value-card-hover-emerald:hover {
+            box-shadow: 0 0 40px rgba(5, 150, 105, 0.8); /* Glow esmeralda fuerte */
+            transform: scale(1.03); 
+        }
+        /* Brillo Dorado para el Activo Futuro */
+        .value-card-hover-amber:hover { 
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.7); /* Glow ámbar/dorado */
+            transform: scale(1.03); 
+        }
+        
+        /* ****************************************************** */
+        /* CLASE PARA TARJETAS DE SOCIOS DETALLADAS */
+        /* ****************************************************** */
+        .partner-detail-card {
+            display: flex;
+            align-items: stretch; /* Asegura que la tarjeta se estire para ocupar el alto */
+            height: auto; 
+        }
+        .partner-detail-card:hover {
+            transform: translateY(-4px); /* Levantamiento sutil en hover */
+        }
+        /* Estilo para el botón Back to Top */
+        #backToTop {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
 
-    <!-- Body -->
-    <body>
-
-        <!--========== HEADER ==========-->
-        <header class="navbar-fixed-top s-header js__header-sticky js__header-overlay">
-            <!-- Navbar -->
-            <div class="s-header__navbar">
-                <div class="s-header__container">
-                    <div class="s-header__navbar-row">
-                        <div class="s-header__navbar-row-col">
-                            <!-- Logo -->
-                            <div class="s-header__logo">
-                                <a href="index.html" class="s-header__logo-link">
-                                    <img class="s-header__logo-img s-header__logo-img-default" src="img/logo.png" alt="Megakit Logo">
-                                    <img class="s-header__logo-img s-header__logo-img-shrink" src="img/logo-dark.png" alt="Megakit Logo">
-                                </a>
-                            </div>
-                            <!-- End Logo -->
-                        </div>
-                        <div class="s-header__navbar-row-col">
-                            <!-- Trigger -->
-                            <a href="javascript:void(0);" class="s-header__trigger js__trigger">
-                                <span class="s-header__trigger-icon"></span>
-                                <svg x="0rem" y="0rem" width="3.125rem" height="3.125rem" viewbox="0 0 54 54">
-                                    <circle fill="transparent" stroke="#fff" stroke-width="1" cx="27" cy="27" r="25" stroke-dasharray="157 157" stroke-dashoffset="157"></circle>
-                                </svg>
-                            </a>
-                            <!-- End Trigger -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Navbar -->
-
-            <!-- Overlay -->
-            <div class="s-header-bg-overlay js__bg-overlay">
-                <!-- Nav -->
-                <nav class="s-header__nav js__scrollbar">
-                    <div class="container-fluid">
-                        <!-- Menu List -->                                
-                        <ul class="list-unstyled s-header__nav-menu">
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider -is-active" href="index.html">Corporate</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="index_app_landing.html">App Landing</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="index_portfolio.html">Portfolio</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="index_events.html">Events</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="index_lawyer.html">Lawyer</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="index_clinic.html">Clinic</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="index_coming_soon.html">Coming Soon</a></li>
-                        </ul>
-                        <!-- End Menu List -->
-
-                        <!-- Menu List -->                                
-                        <ul class="list-unstyled s-header__nav-menu">
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="about.html">About</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="team.html">Team</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="services.html">Services</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="events.html">Events</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="faq.html">FAQ</a></li>
-                            <li class="s-header__nav-menu-item"><a class="s-header__nav-menu-link s-header__nav-menu-link-divider" href="contacts.html">Contacts</a></li>
-                        </ul>
-                        <!-- End Menu List -->
-                    </div>
-                </nav>
-                <!-- End Nav -->
-                
-                <!-- Action -->
-                <ul class="list-inline s-header__action s-header__action--lb">
-                    <li class="s-header__action-item"><a class="s-header__action-link -is-active" href="#">En</a></li>
-                    <li class="s-header__action-item"><a class="s-header__action-link" href="#">Fr</a></li>
-                </ul>
-                <!-- End Action -->
-
-                <!-- Action -->
-                <ul class="list-inline s-header__action s-header__action--rb">
-                    <li class="s-header__action-item">
-                        <a class="s-header__action-link" href="#">
-                            <i class="g-padding-r-5--xs ti-facebook"></i>
-                            <span class="g-display-none--xs g-display-inline-block--sm">Facebook</span>
-                        </a>
-                    </li>
-                    <li class="s-header__action-item">
-                        <a class="s-header__action-link" href="#">
-                            <i class="g-padding-r-5--xs ti-twitter"></i>
-                            <span class="g-display-none--xs g-display-inline-block--sm">Twitter</span>
-                        </a>
-                    </li>
-                    <li class="s-header__action-item">
-                        <a class="s-header__action-link" href="#">
-                            <i class="g-padding-r-5--xs ti-instagram"></i>
-                            <span class="g-display-none--xs g-display-inline-block--sm">Instagram</span>
-                        </a>
-                    </li>
-                </ul>
-                <!-- End Action -->
-            </div>
-            <!-- End Overlay -->
-        </header>
-        <!--========== END HEADER ==========-->
-
-        <!--========== SWIPER SLIDER ==========-->
-        <div class="s-swiper js__swiper-one-item">
-            <!-- Swiper Wrapper -->
-            <div class="swiper-wrapper">
-                <div class="g-fullheight--xs g-bg-position--center swiper-slide" style="background: url('img/1920x1080/ocean_imagen_1.jpg');">
-                    <div class="container g-text-center--xs g-ver-center--xs">
-                        <div class="g-margin-b-30--xs">
-                            <h1 class="g-font-size-35--xs g-font-size-45--sm g-font-size-55--md g-color--white">AAA Mobile Experience<br>That Inspires Travel</h1>
-                        </div>
-                        <a class="js__popup__youtube" href="https://www.youtube.com/embed/-Uv7Sg1aFk4" title="Intro Video">
-                            <i class="s-icon s-icon--lg s-icon--white-bg g-radius--circle ti-control-play"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="g-fullheight--xs g-bg-position--center swiper-slide" style="background: url('img/1920x1080/01.jpg');">
-                    <div class="container g-text-center--xs g-ver-center--xs">
-                        <div class="g-margin-b-30--xs">
-                            <div class="g-margin-b-30--xs">
-                                <h2 class="g-font-size-35--xs g-font-size-45--sm g-font-size-55--md g-color--white">We Craft Experience<br>That Help Brands<br>Stand Out</h2>
-                            </div>
-                            <a class="js__popup__youtube" href="https://www.youtube.com/embed/-Uv7Sg1aFk4" title="Intro Video">
-                                <i class="s-icon s-icon--lg s-icon--white-bg g-radius--circle ti-control-play"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Swiper Wrapper -->
-
-            <!-- Arrows -->
-            <a href="javascript:void(0);" class="s-swiper__arrow-v1--right s-icon s-icon--md s-icon--white-brd g-radius--circle ti-angle-right js__swiper-btn--next"></a>
-            <a href="javascript:void(0);" class="s-swiper__arrow-v1--left s-icon s-icon--md s-icon--white-brd g-radius--circle ti-angle-left js__swiper-btn--prev"></a>
-            <!-- End Arrows -->
-            
-            <a href="#js__scroll-to-section" class="s-scroll-to-section-v1--bc g-margin-b-15--xs">
-                <span class="g-font-size-18--xs g-color--white ti-angle-double-down"></span>
-                <p class="text-uppercase g-color--white g-letter-spacing--3 g-margin-b-0--xs">Learn More</p>
+    <!-- Navegación (Fija y Oscura) -->
+    <header class="shadow-xl bg-gray-900 fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-extrabold text-emerald-400">Únete a la revolución <span class="text-gray-400 font-light">Circular</span></a>
+            <nav class="flex items-center space-x-3 md:space-x-6">
+                <!-- ENLACES DE NAVEGACIÓN COMPLETOS -->
+                <a href="#impacto-real" class="text-gray-400 hover:text-emerald-400 transition duration-300 font-medium hidden sm:block">El Problema</a>
+                <a href="#activo-valor" class="text-gray-400 hover:text-emerald-400 transition duration-300 font-medium hidden sm:block">El Activo CSR</a>
+                <a href="#proyeccion-precio" class="text-gray-400 hover:text-emerald-400 transition duration-300 font-medium hidden lg:block">Potencial Futuro</a>
+                <a href="#credito-carbono-historia" class="text-gray-400 hover:text-emerald-400 transition duration-300 font-medium hidden lg:block">Precedente</a>
+                <a href="#socios" class="text-gray-400 hover:text-emerald-400 transition duration-300 font-medium hidden md:block">Validación Global</a>
+                <a href="#preguntas" class="text-gray-400 hover:text-emerald-400 transition duration-300 font-medium hidden sm:block">FAQ</a>
+            </nav>
+            <!-- CTA Header - REEMPLAZADO por un enlace al Hero, si se desea mantener un CTA visible en móvil -->
+            <a href="#hero" class="cta-redirect-btn px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition duration-300 md:hidden">
+                Participa
             </a>
+            <!-- Se elimina el botón de redirección en desktop, confiando en el CTA grande del Hero -->
         </div>
-        <!--========== END SWIPER SLIDER ==========-->
+    </header>
 
-        <!--========== PAGE CONTENT ==========-->
-        <!-- Features -->
-        <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
-            <div class="g-text-center--xs g-margin-b-100--xs">
-                <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Welcome to Megakit</p>
-                <h2 class="g-font-size-32--xs g-font-size-36--md">We Create Beautiful Experiences <br> That Drive Successful Businesses.</h2>
-            </div>
-            <div class="row g-margin-b-60--xs g-margin-b-70--md">
-                <div class="col-sm-4 g-margin-b-60--xs g-margin-b-0--md">
-                    <div class="clearfix">
-                        <div class="g-media g-width-30--xs">
-                            <div class="wow fadeInDown" data-wow-duration=".3" data-wow-delay=".1s">
-                                <i class="g-font-size-28--xs g-color--primary ti-desktop"></i>
-                            </div>
-                        </div>
-                        <div class="g-media__body g-padding-x-20--xs">
-                            <h3 class="g-font-size-18--xs">Responsive Layout</h3>
-                            <p class="g-margin-b-0--xs">This is where we sit down, grab a cup of coffee and dial in the details.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 g-margin-b-60--xs g-margin-b-0--md">
-                    <div class="clearfix">
-                        <div class="g-media g-width-30--xs">
-                            <div class="wow fadeInDown" data-wow-duration=".3" data-wow-delay=".2s">
-                                <i class="g-font-size-28--xs g-color--primary ti-settings"></i>
-                            </div>
-                        </div>
-                        <div class="g-media__body g-padding-x-20--xs">
-                            <h3 class="g-font-size-18--xs">Fully Customizable</h3>
-                            <p class="g-margin-b-0--xs">This is where we sit down, grab a cup of coffee and dial in the details.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="clearfix">
-                        <div class="g-media g-width-30--xs">
-                            <div class="wow fadeInDown" data-wow-duration=".3" data-wow-delay=".3s">
-                                <i class="g-font-size-28--xs g-color--primary ti-ruler-alt-2"></i>
-                            </div>
-                        </div>
-                        <div class="g-media__body g-padding-x-20--xs">
-                            <h3 class="g-font-size-18--xs">Pixel Perfect</h3>
-                            <p class="g-margin-b-0--xs">This is where we sit down, grab a cup of coffee and dial in the details.</p>
+    <main>
+        <!-- 1. Sección Héroe (Optimizado con copy más fuerte) -->
+        <section id="hero" class="relative bg-gray-900 text-white pt-24 pb-20 sm:pt-32 sm:pb-32 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                
+               <!-- Título Principal (MEJORADO) -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white text-center lg:text-left">
+                    Únete a la misión: Combatir la contaminación plástica <span class="text-emerald-400 block sm:inline">y crear una nueva economía.</span>
+                </h1>
+                <!-- Subtítulo (MEJORADO) -->
+                <p class="text-xl text-gray-400 mb-12 max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
+                    <strong class="text-white">Bienvenido a la nueva economía circular. Aquí, certificamos la eliminación de plástico con </strong> <strong class="text-emerald-300">un activo digital (CSR25), creando valor real tanto para el planeta como para ti.</strong>
+                </p>
+                
+                <!-- Contenedor de dos columnas (50/50 en desktop) -->
+                <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-start"> 
+                    
+                    <!-- Columna Izquierda (Video - 50% / col-span-6) -->
+                    <div class="lg:col-span-6 mb-12 lg:mb-0">
+                        <div class="relative w-full pb-[56.25%] rounded-xl overflow-hidden shadow-2xl border-4 border-emerald-500/50">
+                            <!--
+                                INSTRUCCIÓN: Reemplaza la URL de 'src' con la de tu video de YouTube (formato de EMBED).
+                                Formato de YouTube (Embed): https://www.youtube.com/embed/VIDEO_ID
+                                Formato de Vimeo (Embed): https://player.vimeo.com/video/VIDEO_ID
+                            -->
+                    
+                            <iframe class="absolute top-0 left-0 w-full h-full" width="560" height="315"
+                                src="https://www.youtube.com/embed/G2wBnPl5QaM?si=--lEi9J8rSVQy5zz" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- // end row  -->
-            <div class="row">
-                <div class="col-sm-4 g-margin-b-60--xs g-margin-b-0--md">
-                    <div class="clearfix">
-                        <div class="g-media g-width-30--xs">
-                            <div class="wow fadeInDown" data-wow-duration=".3" data-wow-delay=".4s">
-                                <i class="g-font-size-28--xs g-color--primary ti-package"></i>
-                            </div>
-                        </div>
-                        <div class="g-media__body g-padding-x-20--xs">
-                            <h3 class="g-font-size-18--xs">Endless Possibilities</h3>
-                            <p class="g-margin-b-0--xs">This is where we sit down, grab a cup of coffee and dial in the details.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 g-margin-b-60--xs g-margin-b-0--md">
-                    <div class="clearfix">
-                        <div class="g-media g-width-30--xs">
-                            <div class="wow fadeInDown" data-wow-duration=".3" data-wow-delay=".5s">
-                                <i class="g-font-size-28--xs g-color--primary ti-star"></i>
-                            </div>
-                        </div>
-                        <div class="g-media__body g-padding-x-20--xs">
-                            <h3 class="g-font-size-18--xs">Powerful Performance</h3>
-                            <p class="g-margin-b-0--xs">This is where we sit down, grab a cup of coffee and dial in the details.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="clearfix">
-                        <div class="g-media g-width-30--xs">
-                            <div class="wow fadeInDown" data-wow-duration=".3" data-wow-delay=".6s">
-                                <i class="g-font-size-28--xs g-color--primary ti-panel"></i>
-                            </div>
-                        </div>
-                        <div class="g-media__body g-padding-x-20--xs">
-                            <h3 class="g-font-size-18--xs">Parallax Support</h3>
-                            <p class="g-margin-b-0--xs">This is where we sit down, grab a cup of coffee and dial in the details.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- // end row  -->
-        </div>
-        <!-- End Features -->
 
-        <!-- Parallax -->
-        <div class="js__parallax-window" style="background: url(img/1920x1080/03.jpg) 50% 0 no-repeat fixed;">
-            <div class="container g-text-center--xs g-padding-y-80--xs g-padding-y-125--sm">
-                <div class="g-margin-b-80--xs">
-                    <h2 class="g-font-size-40--xs g-font-size-50--sm g-font-size-60--md g-color--white">The Fastest Way To Develop</h2>
-                </div>
-                <a href="http://keenthemes.com/" class="text-uppercase s-btn s-btn--md s-btn--white-brd g-radius--50">Learn More</a>
-            </div>
-        </div>
-        <!-- End Parallax -->
+                    <!-- Columna Derecha (Caja de Puntos Clave + CTA - 50% / col-span-6) -->
+                    <div class="lg:col-span-6 flex items-center">
+                        <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-emerald-500/50 w-full">
+                            <h3 class="text-3xl font-extrabold mb-8 text-emerald-400 text-center">TRIPLE BENEFICIO</h3>
+                            
+                            <!-- Lista de Beneficios Simplificada y más Persuasiva (Optimizada) -->
+                            <ul class="space-y-6 mb-10">
+                                <li class="flex items-start">
+                                    <i data-lucide="shield-check" class="w-8 h-8 text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                    <span class="text-xl font-bold text-white">IMPACTO REAL:</span>
+                                    <span class="text-lg text-gray-300 ml-2">Obtén tu Recibo Digital CSR, la prueba <strong class="text-emerald-300">inmutable</strong> de la eliminación física de plástico <strong class="text-emerald-300">registrada en Blockchain.</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="wallet" class="w-8 h-8 text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                    <span class="text-xl font-bold text-white">ACTIVO TANGIBLE:</span>
+                                    <span class="text-lg text-gray-300 ml-2">Adquiere Créditos CSR, un <strong class="text-emerald-300">Activo Digital TANGIBLE</strong> respaldado por <strong class="text-emerald-300">la única infraestructura que produce el bioaceite 'más puro del mercado'.</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="trending-up" class="w-8 h-8 text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                    <span class="text-xl font-bold text-white">MERCADO FUTURO:</span>
+                                    <span class="text-lg text-gray-300 ml-2">Posiciónate ante la <strong class="text-emerald-300">Demanda Corporativa Mandatoria</strong> impulsada por la <strong class="text-emerald-300">Presión Regulatoria (ERP).</strong></span>
+                                </li>
+                            </ul>
 
-        <!-- Culture -->
-        <div class="g-promo-section">
-            <div class="container g-padding-y-80--xs g-padding-y-125--sm">
-                <div class="row">
-                    <div class="col-md-4 g-margin-t-15--xs g-margin-b-60--xs g-margin-b-0--lg">
-                        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Culture</p>
-                        <div class="wow fadeInLeft" data-wow-duration=".3" data-wow-delay=".1s">
-                            <h2 class="g-font-size-40--xs g-font-size-50--sm g-font-size-60--md">About</h2>
+                            <!-- CTA Hero - Abre Modal (AÑADIDO CTA-GLOW-EFFECT) -->
+                            <a href="#" class="cta-redirect-btn w-full inline-block text-center px-8 py-5 bg-emerald-500 text-white text-2xl font-extrabold rounded-xl hover:bg-emerald-400 shadow-xl cta-glow-effect">
+                                Únete a la Misión (desde 10€)
+                            </a>
+                            
                         </div>
-                        <div class="wow fadeInLeft" data-wow-duration=".3" data-wow-delay=".3s">
-                            <h2 class="g-font-size-40--xs g-font-size-50--sm g-font-size-60--md">Megakit</h2>
-                        </div>
+                        
                     </div>
-                    <div class="col-md-4 col-md-offset-1">
-                        <p class="g-font-size-18--xs">We aim high at being focused on building relationships with our clients and community. Using our creative gifts drives this foundation. The time has come to bring those ideas and plans to life. This is where we really begin to visualize your napkin sketches and make them into beautiful pixels.</p>
-                        <p class="g-font-size-18--xs">Now that your brand is all dressed up and ready to party, it's time to release it to the world. By the way, let's celebrate already.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 g-promo-section__img-right--lg g-bg-position--center g-height-100-percent--md js__fullwidth-img">
-                <img class="img-responsive" src="img/970x970/03.jpg" alt="Image">
-            </div>
-        </div>
-        <!-- End Culture -->
 
-        <!-- Subscribe -->
-        <div class="js__parallax-window" style="background: url(img/1920x1080/07.jpg) 50% 0 no-repeat fixed;">
-            <div class="g-container--sm g-text-center--xs g-padding-y-80--xs g-padding-y-125--sm">
-                <div class="g-margin-b-80--xs">
-                    <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--white-opacity g-letter-spacing--2 g-margin-b-25--xs">Subscribe</p>
-                    <h2 class="g-font-size-32--xs g-font-size-36--md g-color--white">Join Over 1000+ People</h2>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-                        <form class="input-group">
-                            <input type="email" class="form-control s-form-v1__input g-radius--left-50" name="email" placeholder="Enter your email">
-                            <span class="input-group-btn">
-                                <button type="submit" class="s-btn s-btn-icon--md s-btn-icon--white-brd s-btn--white-brd g-radius--right-50"><i class="ti-arrow-right"></i></button>
-                            </span>
-                        </form>
-                    </div>
                 </div>
             </div>
-        </div>
-        <!-- End Subscribe -->
-
-        <!-- Portfolio Filter -->
-        <div class="container g-padding-y-80--xs">
-            <div class="g-text-center--xs g-margin-b-40--xs">
-                <h2 class="g-font-size-32--xs g-font-size-36--md">Projects</h2>
+            <!-- Fondo abstracto --><div class="absolute inset-0 opacity-10">
+                <svg viewBox="0 0 100 100" class="w-full h-full fill-current text-emerald-800" preserveAspectRatio="none">
+                    <circle cx="0" cy="100" r="70" opacity="0.3"></circle>
+                    <circle cx="100" cy="0" r="70" opacity="0.3"></circle>
+                </svg>
             </div>
-            <div class="s-portfolio">
-                <div id="js__filters-portfolio-gallery" class="s-portfolio__filter-v1 cbp-l-filters-text cbp-l-filters-center">
-                    <div data-filter="*" class="s-portfolio__filter-v1-item cbp-filter-item cbp-filter-item-active">Show All</div>
-                    <div data-filter=".graphic" class="s-portfolio__filter-v1-item cbp-filter-item">Graphic</div>
-                    <div data-filter=".logos" class="s-portfolio__filter-v1-item cbp-filter-item">Logo</div>
-                    <div data-filter=".motion" class="s-portfolio__filter-v1-item cbp-filter-item">Motion</div>
-                </div>
-            </div>
-        </div>
-        <!-- End Portfolio Filter -->
-
-        <!-- Portfolio Gallery -->
-        <div class="container g-margin-b-100--xs">
-            <div id="js__grid-portfolio-gallery" class="cbp">
-                <!-- Item -->
-                <div class="s-portfolio__item cbp-item logos motion">
-                    <div class="s-portfolio__img-effect">
-                        <img src="img/970x647/05.jpg" alt="Portfolio Image">
-                    </div>
-                    <div class="s-portfolio__caption-hover--cc">
-                        <div class="g-margin-b-25--xs">
-                            <h4 class="g-font-size-18--xs g-color--white g-margin-b-5--xs">Portfolio Item</h4>
-                            <p class="g-color--white-opacity">by KeenThemes Inc.</p>
-                        </div>
-                        <ul class="list-inline g-ul-li-lr-5--xs g-margin-b-0--xs">
-                            <li>
-                                <a href="img/970x647/05.jpg" class="cbp-lightbox s-icon s-icon--sm s-icon--white-bg g-radius--circle" data-title="Portfolio Item <br/> by KeenThemes Inc.">
-                                    <i class="ti-fullscreen"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" class="s-icon s-icon--sm s-icon s-icon--white-bg g-radius--circle">
-                                    <i class="ti-link"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="s-portfolio__item cbp-item graphic">
-                    <div class="s-portfolio__img-effect">
-                        <img src="img/970x647/06.jpg" alt="Portfolio Image">
-                    </div>
-                    <div class="s-portfolio__caption-hover--cc">
-                        <div class="g-margin-b-25--xs">
-                            <h4 class="g-font-size-18--xs g-color--white g-margin-b-5--xs">Portfolio Item</h4>
-                            <p class="g-color--white-opacity">by KeenThemes Inc.</p>
-                        </div>
-                        <ul class="list-inline g-ul-li-lr-5--xs g-margin-b-0--xs">
-                            <li>
-                                <a href="img/970x647/06.jpg" class="cbp-lightbox s-icon s-icon--sm s-icon--white-bg g-radius--circle" data-title="Portfolio Item <br/> by KeenThemes Inc.">
-                                    <i class="ti-fullscreen"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" class="s-icon s-icon--sm s-icon s-icon--white-bg g-radius--circle">
-                                    <i class="ti-link"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="s-portfolio__item cbp-item logos">
-                    <div class="s-portfolio__img-effect">
-                        <img src="img/970x647/07.jpg" alt="Portfolio Image">
-                    </div>
-                    <div class="s-portfolio__caption-hover--cc">
-                        <div class="g-margin-b-25--xs">
-                            <h4 class="g-font-size-18--xs g-color--white g-margin-b-5--xs">Portfolio Item</h4>
-                            <p class="g-color--white-opacity">by KeenThemes Inc.</p>
-                        </div>
-                        <ul class="list-inline g-ul-li-lr-5--xs g-margin-b-0--xs">
-                            <li>
-                                <a href="img/970x647/07.jpg" class="cbp-lightbox s-icon s-icon--sm s-icon--white-bg g-radius--circle" data-title="Portfolio Item <br/> by KeenThemes Inc.">
-                                    <i class="ti-fullscreen"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" class="s-icon s-icon--sm s-icon s-icon--white-bg g-radius--circle">
-                                    <i class="ti-link"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="s-portfolio__item cbp-item motion graphic">
-                    <div class="s-portfolio__img-effect">
-                        <img src="img/970x647/08.jpg" alt="Portfolio Image">
-                    </div>
-                    <div class="s-portfolio__caption-hover--cc">
-                        <div class="g-margin-b-25--xs">
-                            <h4 class="g-font-size-18--xs g-color--white g-margin-b-5--xs">Portfolio Item</h4>
-                            <p class="g-color--white-opacity">by KeenThemes Inc.</p>
-                        </div>
-                        <ul class="list-inline g-ul-li-lr-5--xs g-margin-b-0--xs">
-                            <li>
-                                <a href="img/970x647/08.jpg" class="cbp-lightbox s-icon s-icon--sm s-icon--white-bg g-radius--circle" data-title="Portfolio Item <br/> by KeenThemes Inc.">
-                                    <i class="ti-fullscreen"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" class="s-icon s-icon--sm s-icon s-icon--white-bg g-radius--circle">
-                                    <i class="ti-link"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="s-portfolio__item cbp-item logos graphic">
-                    <div class="s-portfolio__img-effect">
-                        <img src="img/970x647/09.jpg" alt="Portfolio Image">
-                    </div>
-                    <div class="s-portfolio__caption-hover--cc">
-                        <div class="g-margin-b-25--xs">
-                            <h4 class="g-font-size-18--xs g-color--white g-margin-b-5--xs">Portfolio Item</h4>
-                            <p class="g-color--white-opacity">by KeenThemes Inc.</p>
-                        </div>
-                        <ul class="list-inline g-ul-li-lr-5--xs g-margin-b-0--xs">
-                            <li>
-                                <a href="img/970x647/09.jpg" class="cbp-lightbox s-icon s-icon--sm s-icon--white-bg g-radius--circle" data-title="Portfolio Item <br/> by KeenThemes Inc.">
-                                    <i class="ti-fullscreen"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" class="s-icon s-icon--sm s-icon s-icon--white-bg g-radius--circle">
-                                    <i class="ti-link"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="s-portfolio__item cbp-item motion graphic">
-                    <div class="s-portfolio__img-effect">
-                        <img src="img/970x647/04.jpg" alt="Portfolio Image">
-                    </div>
-                    <div class="s-portfolio__caption-hover--cc">
-                        <div class="g-margin-b-25--xs">
-                            <h4 class="g-font-size-18--xs g-color--white g-margin-b-5--xs">Portfolio Item</h4>
-                            <p class="g-color--white-opacity">by KeenThemes Inc.</p>
-                        </div>
-                        <ul class="list-inline g-ul-li-lr-5--xs g-margin-b-0--xs">
-                            <li>
-                                <a href="img/970x647/04.jpg" class="cbp-lightbox s-icon s-icon--sm s-icon--white-bg g-radius--circle" data-title="Portfolio Item <br/> by KeenThemes Inc.">
-                                    <i class="ti-fullscreen"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" class="s-icon s-icon--sm s-icon s-icon--white-bg g-radius--circle">
-                                    <i class="ti-link"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End Item -->
-            </div>
-            <!-- End Portfolio Gallery -->
-        </div>
-        <!-- End Portfolio -->
-
-        <!-- Testimonials -->
-        <div class="js__parallax-window" style="background: url(img/1920x1080/04.jpg) 50% 0 no-repeat fixed;">
-            <div class="container g-text-center--xs g-padding-y-80--xs g-padding-y-125--sm">
-                <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--white-opacity g-letter-spacing--2 g-margin-b-50--xs">Testimonials</p>
-                <div class="s-swiper js__swiper-testimonials">
-                    <!-- Swiper Wrapper -->
-                    <div class="swiper-wrapper g-margin-b-50--xs">
-                        <div class="swiper-slide g-padding-x-130--sm g-padding-x-150--lg">
-                            <div class="g-padding-x-20--xs g-padding-x-50--lg">
-                                <div class="g-margin-b-40--xs">
-                                    <p class="g-font-size-22--xs g-font-size-28--sm g-color--white"><i>" I have purchased many great templates over the years but this product and this company have taken it to the next level. Exceptional customizability. "</i></p>
-                                </div>
-                                <div class="center-block g-hor-divider__solid--white-opacity-lightest g-width-100--xs g-margin-b-30--xs"></div>
-                                <h4 class="g-font-size-15--xs g-font-size-18--sm g-color--white-opacity-light g-margin-b-5--xs">Jake Richardson / Google</h4>
-                            </div>
-                        </div>
-                        <div class="swiper-slide g-padding-x-130--sm g-padding-x-150--lg">
-                            <div class="g-padding-x-20--xs g-padding-x-50--lg">
-                                <div class="g-margin-b-40--xs">
-                                    <p class="g-font-size-22--xs g-font-size-28--sm g-color--white"><i>" I have purchased many great templates over the years but this product and this company have taken it to the next level. Exceptional customizability. "</i></p>
-                                </div>
-                                <div class="center-block g-hor-divider__solid--white-opacity-lightest g-width-100--xs g-margin-b-30--xs"></div>
-                                <h4 class="g-font-size-15--xs g-font-size-18--sm g-color--white-opacity-light g-margin-b-5--xs">Jake Richardson / Google</h4>
-                            </div>
-                        </div>
-                        <div class="swiper-slide g-padding-x-130--sm g-padding-x-150--lg">
-                            <div class="g-padding-x-20--xs g-padding-x-50--lg">
-                                <div class="g-margin-b-40--xs">
-                                    <p class="g-font-size-22--xs g-font-size-28--sm g-color--white"><i>" I have purchased many great templates over the years but this product and this company have taken it to the next level. Exceptional customizability. "</i></p>
-                                </div>
-                                <div class="center-block g-hor-divider__solid--white-opacity-lightest g-width-100--xs g-margin-b-30--xs"></div>
-                                <h4 class="g-font-size-15--xs g-font-size-18--sm g-color--white-opacity-light g-margin-b-5--xs">Jake Richardson / Google</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Swipper Wrapper -->
-
-                    <!-- Arrows -->
-                    <div class="g-font-size-22--xs g-color--white-opacity js__swiper-fraction"></div>
-                    <a href="javascript:void(0);" class="g-display-none--xs g-display-inline-block--sm s-swiper__arrow-v1--right s-icon s-icon--md s-icon--white-brd g-radius--circle ti-angle-right js__swiper-btn--next"></a>
-                    <a href="javascript:void(0);" class="g-display-none--xs g-display-inline-block--sm s-swiper__arrow-v1--left s-icon s-icon--md s-icon--white-brd g-radius--circle ti-angle-left js__swiper-btn--prev"></a>
-                    <!-- End Arrows -->
-                </div>
-            </div>
-        </div>
-        <!-- End Testimonials -->
-
-        <!-- Clients -->
-        <div class="g-bg-color--sky-light">
-            <div class="g-container--md g-padding-y-80--xs g-padding-y-125--sm">
-                <!-- Swiper Clients -->
-                <div class="s-swiper js__swiper-clients">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="wow fadeIn" data-wow-duration=".3" data-wow-delay=".1s">
-                                <img class="s-clients-v1" src="img/clients/01-dark.png" alt="Clients Logo">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="wow fadeIn" data-wow-duration=".3" data-wow-delay=".2s">
-                                <img class="s-clients-v1" src="img/clients/02-dark.png" alt="Clients Logo">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="wow fadeIn" data-wow-duration=".3" data-wow-delay=".3s">
-                                <img class="s-clients-v1" src="img/clients/03-dark.png" alt="Clients Logo">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="wow fadeIn" data-wow-duration=".3" data-wow-delay=".4s">
-                                <img class="s-clients-v1" src="img/clients/04-dark.png" alt="Clients Logo">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="wow fadeIn" data-wow-duration=".3" data-wow-delay=".5s">
-                                <img class="s-clients-v1" src="img/clients/05-dark.png" alt="Clients Logo">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Swiper Clients -->
-            </div>
-        </div>
-        <!-- End Clients -->
-
-        <!-- News -->
-        <div class="container g-padding-y-80--xs g-padding-y-125--sm">
-            <div class="g-text-center--xs g-margin-b-80--xs">
-                <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Blog</p>
-                <h2 class="g-font-size-32--xs g-font-size-36--md">Latest News</h2>
-            </div>
-            <div class="row">
-                <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                    <!-- News -->
-                    <article>
-                        <img class="img-responsive" src="img/970x970/01.jpg" alt="Image">
-                        <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2">News</p>
-                            <h3 class="g-font-size-22--xs g-letter-spacing--1"><a href="http://keenthemes.com/">Create Something Great.</a></h3>
-                            <p>The time has come to bring those ideas and plans to life.</p>
-                        </div>
-                    </article>
-                    <!-- End News -->
-                </div>
-                <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                    <!-- News -->
-                    <article>
-                        <img class="img-responsive" src="img/970x970/02.jpg" alt="Image">
-                        <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2">News</p>
-                            <h3 class="g-font-size-22--xs g-letter-spacing--1"><a href="http://keenthemes.com/">Jacks of All. Experts in All.</a></h3>
-                            <p>The time has come to bring those ideas and plans to life.</p>
-                        </div>
-                    </article>
-                    <!-- End News -->
-                </div>
-                <div class="col-sm-4">
-                    <!-- News -->
-                    <article>
-                        <img class="img-responsive" src="img/970x970/03.jpg" alt="Image">
-                        <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2">News</p>
-                            <h3 class="g-font-size-22--xs g-letter-spacing--1"><a href="http://keenthemes.com/">Finding your Perfect Place.</a></h3>
-                            <p>The time has come to bring those ideas and plans to life.</p>
-                        </div>
-                    </article>
-                    <!-- End News -->
-                </div>
-            </div>
-        </div>
-        <!-- End News -->
-
-        <!-- Counter -->
-        <div class="js__parallax-window" style="background: url(img/1920x1080/06.jpg) 50% 0 no-repeat fixed;">
-            <div class="container g-padding-y-80--xs g-padding-y-125--sm">
-                <div class="row">
-                    <div class="col-md-3 col-xs-6 g-full-width--xs g-margin-b-70--xs g-margin-b-0--lg">
-                        <div class="g-text-center--xs">
-                            <div class="g-margin-b-10--xs">
-                                <figure class="g-display-inline-block--xs g-font-size-70--xs g-color--white js__counter">6</figure>
-                                <span class="g-font-size-40--xs g-color--white">k</span>
-                            </div>
-                            <div class="center-block g-hor-divider__solid--white g-width-40--xs g-margin-b-25--xs"></div>
-                            <h4 class="g-font-size-18--xs g-color--white">Lines of Code</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-6 g-full-width--xs g-margin-b-70--xs g-margin-b-0--lg">
-                        <div class="g-text-center--xs">
-                            <figure class="g-display-block--xs g-font-size-70--xs g-color--white g-margin-b-10--xs js__counter">5</figure>
-                            <div class="center-block g-hor-divider__solid--white g-width-40--xs g-margin-b-25--xs"></div>
-                            <h4 class="g-font-size-18--xs g-color--white">Award Winners</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-6 g-full-width--xs g-margin-b-70--xs g-margin-b-0--sm">
-                        <div class="g-text-center--xs">
-                            <figure class="g-display-block--xs g-font-size-70--xs g-color--white g-margin-b-10--xs js__counter">15</figure>
-                            <div class="center-block g-hor-divider__solid--white g-width-40--xs g-margin-b-25--xs"></div>
-                            <h4 class="g-font-size-18--xs g-color--white">Multiple Pages</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-6 g-full-width--xs">
-                        <div class="g-text-center--xs">
-                            <div class="g-margin-b-10--xs">
-                                <figure class="g-display-inline-block--xs g-font-size-70--xs g-color--white js__counter">2</figure>
-                                <span class="g-font-size-40--xs g-color--white">x</span>
-                            </div>
-                            <div class="center-block g-hor-divider__solid--white g-width-40--xs g-margin-b-25--xs"></div>
-                            <h4 class="g-font-size-18--xs g-color--white">Faster Support</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Counter -->
-
-        <!-- Feedback Form -->
-        <div class="g-bg-color--sky-light">
-            <div class="container g-padding-y-80--xs g-padding-y-125--sm">
-                <div class="g-text-center--xs g-margin-b-80--xs">
-                    <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Feedback</p>
-                    <h2 class="g-font-size-32--xs g-font-size-36--md">Send us a note</h2>
-                </div>
-                <form>
-                    <div class="row g-margin-b-40--xs">
-                        <div class="col-sm-6 g-margin-b-20--xs g-margin-b-0--md">
-                            <div class="g-margin-b-20--xs">
-                                <input type="text" class="form-control s-form-v2__input g-radius--50" placeholder="* Name">
-                            </div>
-                            <div class="g-margin-b-20--xs">
-                                <input type="email" class="form-control s-form-v2__input g-radius--50" placeholder="* Email">
-                            </div>
-                            <input type="text" class="form-control s-form-v2__input g-radius--50" placeholder="* Phone">
-                        </div>
-                        <div class="col-sm-6">
-                            <textarea class="form-control s-form-v2__input g-radius--10 g-padding-y-20--xs" rows="8" placeholder="* Your message"></textarea>
-                        </div>
-                    </div>
-                    <div class="g-text-center--xs">
-                        <button type="submit" class="text-uppercase s-btn s-btn--md s-btn--primary-bg g-radius--50 g-padding-x-80--xs">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- End Feedback Form -->
-
-        <!-- Google Map -->
-        <section class="s-google-map">
-            <div id="js__google-container" class="s-google-container g-height-400--xs"></div>
         </section>
-        <!-- End Google Map -->
-        <!--========== END PAGE CONTENT ==========-->
-
-        <!--========== FOOTER ==========-->
-        <footer class="g-bg-color--dark">
-            <!-- Links -->
-            <div class="g-hor-divider__dashed--white-opacity-lightest">
-                <div class="container g-padding-y-80--xs">
-                    <div class="row">
-                        <div class="col-sm-2 g-margin-b-20--xs g-margin-b-0--md">
-                            <ul class="list-unstyled g-ul-li-tb-5--xs g-margin-b-0--xs">
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Home</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">About</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Work</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Contact</a></li>
-                            </ul>
+        
+        <!-- 2. DATOS DE IMPACTO REAL (SECCIÓN REEMPLAZADA) -->
+        <section id="impacto-real" class="py-16 sm:py-24 bg-gray-700 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+                <!-- INICIO DE CONTENIDO INTEGRADO -->
+        
+                <!-- KPIs (Adaptados de landing_plasticos.html) -->
+                <section id="kpis" class="mb-16 md:mb-24">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12 text-white">El Problema Hoy: 4 Datos Innegables</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        
+                        <!-- KPI 1: Producción Anual -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 transition-all duration-300 hover:border-cyan-500 transform hover:-translate-y-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Producción Anual Actual</h3>
+                            <p class="text-4xl font-extrabold text-cyan-400 mt-2">430 Millones</p>
+                            <p class="text-gray-300">de toneladas métricas. (Fuente: Forbes)</p>
                         </div>
-                        <div class="col-sm-2 g-margin-b-20--xs g-margin-b-0--md">
-                            <ul class="list-unstyled g-ul-li-tb-5--xs g-margin-b-0--xs">
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Twitter</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Facebook</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Instagram</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">YouTube</a></li>
-                            </ul>
+        
+                        <!-- KPI 2: Costo Anual -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 transition-all duration-300 hover:border-red-500 transform hover:-translate-y-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Costo Global Anual</h3>
+                            <p class="text-4xl font-extrabold text-red-400 mt-2">€1.3 Billones</p>
+                            <p class="text-gray-300">(con B) de euros. (Fuente: DW)</p>
                         </div>
-                        <div class="col-sm-2 g-margin-b-40--xs g-margin-b-0--md">
-                            <ul class="list-unstyled g-ul-li-tb-5--xs g-margin-b-0--xs">
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Subscribe to Our Newsletter</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Privacy Policy</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Terms &amp; Conditions</a></li>
-                            </ul>
+        
+                        <!-- KPI 3: Tasa de Reciclaje -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 transition-all duration-300 hover:border-yellow-500 transform hover:-translate-y-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Reciclaje Global (Histórico)</h3>
+                            <p class="text-4xl font-extrabold text-yellow-400 mt-2">Sólo 9%</p>
+                            <p class="text-gray-300">ha sido reciclado. (Fuente: ONU / Plastic Bank)</p>
                         </div>
-                        <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 s-footer__logo g-padding-y-50--xs g-padding-y-0--md">
-                            <h3 class="g-font-size-18--xs g-color--white">Megakit</h3>
-                            <p class="g-color--white-opacity">We are a creative studio focusing on culture, luxury, editorial &amp; art. Somewhere between sophistication and simplicity.</p>
+        
+                        <!-- KPI 4: Proyección 2050 -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 transition-all duration-300 hover:border-orange-500 transform hover:-translate-y-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Proyección para 2050</h3>
+                            <p class="text-4xl font-extrabold text-orange-400 mt-2">Más Plástico</p>
+                            <p class="text-gray-300">que peces en el océano. (Fuente: 4ocean)</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- End Links -->
-
-            <!-- Copyright -->
-            <div class="container g-padding-y-50--xs">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-xs-12">
-                        <a href="index.html">
-                            <img class="g-width-100--xs g-height-auto--xs" src="img/logo.png" alt="Megakit Logo">
-                        </a>
+                </section>
+        
+                <!-- Gráficos (Adaptados de landing_plasticos.html) -->
+                <section class="mb-16 md:mb-24 overflow-hidden">
+                    <div class="text-center mb-12 px-6">
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-white">La Evolución del Fracaso</h2>
+                        <p class="text-lg text-gray-400 mt-2">Desliza para ver la historia numérica &rarr;</p>
                     </div>
                     
-                    <div class="col-lg-4 col-md-4 col-xs-12 g-text-left--xs">
-                        <p class="g-font-size-14--xs g-margin-b-0--xs g-color--white-opacity-light"><a href="http://keenthemes.com/preview/Megakit/">Megakit</a> Theme Powered by: <a href="http://www.keenthemes.com/">KeenThemes.com</a></p>
+                    <!-- Contenedor de Scroll -->
+                    <div class="snap-container hide-scrollbar flex overflow-x-auto -mx-2 px-4">
+                        
+                        <!-- Slide 1: La Explosión de la Producción -->
+                        <div class="snap-slide flex-none w-[90vw] lg:w-[45vw] p-4">
+                            <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 h-full">
+                                <h3 class="text-xl font-bold mb-1 text-white">1. La Explosión Exponencial (+280x)</h3>
+                                <p class="text-xs text-gray-400 mb-4">Fuente: OECD / Forbes</p>
+                                <div class="chart-container">
+                                    <canvas id="productionExplosionChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- Slide 2: Hecho para Desechar (Aclarado) -->
+                        <div class="snap-slide flex-none w-[90vw] lg:w-[45vw] p-4">
+                            <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 h-full">
+                                <h3 class="text-xl font-bold mb-1 text-white">2. Hecho para Desechar (Datos 2024)</h3>
+                                <p class="text-xs text-gray-400 mb-2">Fuente: Forbes / DW</p>
+                                <p class="text-sm text-cyan-300 bg-cyan-900/50 p-3 rounded-lg mb-4">
+                                    <b>Aclaración:</b> El 81% de lo producido en un año (430M) se convierte en residuo *ese mismo año* (350M). <b>Ese es el problema.</b>
+                                </p>
+                                <div class="chart-container" style="height: 310px;">
+                                    <canvas id="prodVsWasteChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- Slide 3: El Fracaso del Reciclaje -->
+                        <div class="snap-slide flex-none w-[90vw] lg:w-[45vw] p-4">
+                            <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 h-full">
+                                <h3 class="text-xl font-bold mb-1 text-white">3. El Fracaso del Reciclaje (Global Histórico)</h3>
+                                <p class="text-xs text-gray-400 mb-4">Fuente: Plastic Bank / CNN / ONU</p>
+                                <div class="chart-container">
+                                    <canvas id="recyclingParadoxChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- Slide 4: Proyección de Residuos -->
+                        <div class="snap-slide flex-none w-[90vw] lg:w-[45vw] p-4">
+                            <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 h-full">
+                                <h3 class="text-xl font-bold mb-1 text-white">4. El Futuro: Triplicar Residuos (2060)</h3>
+                                <p class="text-xs text-gray-400 mb-4">Fuente: Forbes / Noticias ONU</p>
+                                <div class="chart-container">
+                                    <canvas id="futureWasteChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+        
                     </div>
- 
-                 
-                    <div class="col-lg-4 col-md-4 col-xs-12 g-text-left--xs">
-                        <p class="g-font-size-14--xs g-margin-b-0--xs g-color--white-opacity-light"><a href="http://keenthemes.com/preview/Megakit/">Megakit</a> Theme Distributed by: <a href="https://themewagon.com/">themewagon.com</a></p>  
+                </section>
+        
+                <!-- Impactos Futuros (Adaptados de landing_plasticos.html) -->
+                <section>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12 text-white">El Futuro que Nos Espera (Numéricamente)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- Card: Plastic Overshoot Day -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700">
+                            <div class="text-red-400 mb-4"><i class="fa-solid fa-calendar-times fa-3x"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-red-400">"Plastic Overshoot Day"</h3>
+                            <p class="text-gray-300 mb-2">Día en que superamos la capacidad global de gestión de residuos:</p>
+                            <p class="text-3xl font-semibold text-white mb-4">5 de Septiembre (2024)</p>
+                            <p class="text-gray-400">El resto del año, todo plástico se convierte en contaminación mal gestionada.</p>
+                            <p class="text-xs text-gray-500 mt-4">Fuente: plasticovershoot.earth</p>
+                        </div>
+        
+                        <!-- Card: Proyección de Microplásticos -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700">
+                            <div class="text-yellow-400 mb-4"><i class="fa-solid fa-hourglass-half fa-3x"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-yellow-400">La Bomba de Relojería</h3>
+                            <p class="text-gray-300 mb-4">Incluso si toda la contaminación plástica se detuviera <span class="text-white font-semibold">HOY</span>...</p>
+                            <p class="text-gray-400 font-semibold mb-2">...los microplásticos en el océano se <span class="text-white font-semibold">duplicarían</span> para 2050.</p>
+                            <p class="text-gray-400 mt-4">La fragmentación del plástico ya existente es imparable.</p>
+                            <p class="text-xs text-gray-500 mt-4">Fuente: WWF</p>
+                        </div>
+        
+                        <!-- Card: Barreras Sistémicas -->
+                        <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700">
+                            <div class="text-blue-400 mb-4"><i class="fa-solid fa-industry fa-3x"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-blue-400">Por Qué Falla el Reciclaje</h3>
+                            <p class="text-gray-300 mb-4">"No saldremos de la crisis... mediante el reciclaje." (ONU)</p>
+                            <p class="text-gray-400 font-semibold mb-2">Barreras del Sistema:</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li><span class="font-bold text-white">Costo:</span> El plástico virgen es más barato.</li>
+                                <li><span class="font-bold text-white">Tecnología:</span> Imposible reciclar envases compuestos (multimaterial).</li>
+                            </ul>
+                            <p class="text-xs text-gray-500 mt-4">Fuente: ScienceDaily / RTVE</p>
+                        </div>
+                    </div>
+                </section>
+        
+                <!-- FIN DE CONTENIDO INTEGRADO -->
+        
+            </div>
+        </section>
 
+        <!-- 3. Beneficios y Valor del Activo (CSR Plastic Credits) (Tercera sección) --><section id="activo-valor" class="py-16 sm:py-24 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-5xl font-extrabold text-center mb-20 text-emerald-400">
+                    <span class="border-b-4 border-emerald-500 pb-2">El Doble Valor de tu Compromiso</span>
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-12">
+                    
+                    <!-- Tarjeta 1: Impacto Físico Verificado (Glow Esmeralda) -->
+                    <div class="group bg-gray-800 p-8 rounded-2xl shadow-xl border-t-8 border-emerald-500 transition-all duration-500 value-card-hover-emerald hover:border-emerald-300">
+                        <div class="flex items-start mb-6">
+                            <i data-lucide="award" class="w-12 h-12 text-emerald-500 mr-4 flex-shrink-0 transition-all duration-500 group-hover:text-emerald-300"></i>
+                            <div class="flex flex-col">
+                                <p class="text-sm font-light text-gray-400">Punto #1</p>
+                                <h3 class="text-3xl font-extrabold text-white transition-all duration-500 group-hover:text-emerald-200">Eliminación Verificada (Recibo CSR)</h3>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-300 text-xl font-medium leading-relaxed">
+                            Financias la eliminación certificada de residuos plásticos. Recibes un <span class="text-emerald-300 font-extrabold">Recibo Digital (CSR Plastic Credit)</span> que prueba tu impacto <strong class="text-emerald-300">inmutablemente (vía blockchain).</strong>
+                        </p>
+                        <p class="mt-6 text-lg text-emerald-400 font-semibold border-t border-gray-700 pt-4">
+                            Úsalo para obtener tu estatus de <strong class="text-white">Plástico Neutral Certificado</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Tarjeta 2: Potencial de Mercado Público (Glow Dorado) -->
+                    <div class="group bg-gray-800 p-8 rounded-2xl shadow-xl border-t-8 border-amber-500 transition-all duration-500 value-card-hover-amber hover:border-amber-300">
+                        <div class="flex items-start mb-6">
+                            <!-- Icono Dorado/Ámbar -->
+                            <i data-lucide="trending-up" class="w-12 h-12 text-amber-400 mr-4 flex-shrink-0 transition-all duration-500 group-hover:text-amber-200"></i>
+                            <div class="flex flex-col">
+                                <p class="text-sm font-light text-gray-400">Punto #2</p>
+                                <h3 class="text-3xl font-extrabold text-white transition-all duration-500 group-hover:text-amber-200">Valor de Mercado Futuro (Activo Digital)</h3>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-300 text-xl font-medium leading-relaxed">
+                            El CSR Credit es un activo digital con respaldo industrial. La <span class="text-amber-300 font-extrabold">Presión Regulatoria (ERP)</span> garantizará la demanda corporativa futura y <strong class="text-amber-300">obligatoria.</strong>
+                        </p>
+                        <!-- Texto de énfasis Dorado/Ámbar -->
+                        <p class="mt-6 text-lg text-amber-400 font-semibold border-t border-gray-700 pt-4">
+                            Mantén tus Créditos CSR para la posibilidad de <strong class="font-extrabold">Venderlos en el mercado público a futuro</strong>.
+                        </p>
                     </div>
                 </div>
             </div>
-            <!-- End Copyright -->
-        </footer>
-        <!--========== END FOOTER ==========-->
+        </section>
 
-        <!-- Back To Top -->
-        <a href="javascript:void(0);" class="s-back-to-top js__back-to-top"></a>
+        <!-- 4. PROYECCIÓN DE PRECIO CSR (REEMPLAZADA) -->
+        <section id="proyeccion-precio" class="py-16 sm:py-24 bg-gray-700 text-white">
+            <div class="container mx-auto p-4 md:p-8 max-w-7xl">
 
-        <!--========== JAVASCRIPTS (Load javascripts at bottom, this will reduce page load time) ==========-->
-        <!-- Vendor -->
-        <script type="text/javascript" src="vendor/jquery.min.js"></script>
-        <script type="text/javascript" src="vendor/jquery.migrate.min.js"></script>
-        <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="vendor/jquery.smooth-scroll.min.js"></script>
-        <script type="text/javascript" src="vendor/jquery.back-to-top.min.js"></script>
-        <script type="text/javascript" src="vendor/scrollbar/jquery.scrollbar.min.js"></script>
-        <script type="text/javascript" src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-        <script type="text/javascript" src="vendor/swiper/swiper.jquery.min.js"></script>
-        <script type="text/javascript" src="vendor/waypoint.min.js"></script>
-        <script type="text/javascript" src="vendor/counterup.min.js"></script>
-        <script type="text/javascript" src="vendor/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
-        <script type="text/javascript" src="vendor/jquery.parallax.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsXUGTFS09pLVdsYEE9YrO2y4IAncAO2U"></script>
-        <script type="text/javascript" src="vendor/jquery.wow.min.js"></script>
+                <!-- Título Principal -->
+                <header class="text-center mb-8">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
+                        Proyección de Valor (2030)
+                    </h1>
+                    <p class="text-lg text-gray-300">Escenarios de Estimación para CSR y CSR25</p>
+                </header>
+        
+                <!-- Disclaimer Importante -->
+                <div class="bg-gray-800 border-l-4 border-yellow-500 text-yellow-300 p-4 rounded-lg shadow-lg mb-8" role="alert">
+                    <p class="font-bold">Nota Importante</p>
+                    <p class="text-sm">Las siguientes proyecciones son interpretaciones visuales basadas en los escenarios cualitativos del informe. No constituyen consejo de inversión, sino estimaciones analíticas.</p>
+                </div>
 
-        <!-- General Components and Settings -->
-        <script type="text/javascript" src="js/global.min.js"></script>
-        <script type="text/javascript" src="js/components/header-sticky.min.js"></script>
-        <script type="text/javascript" src="js/components/scrollbar.min.js"></script>
-        <script type="text/javascript" src="js/components/magnific-popup.min.js"></script>
-        <script type="text/javascript" src="js/components/swiper.min.js"></script>
-        <script type="text/javascript" src="js/components/counter.min.js"></script>
-        <script type="text/javascript" src="js/components/portfolio-3-col.min.js"></script>
-        <script type="text/javascript" src="js/components/parallax.min.js"></script>
-        <script type="text/javascript" src="js/components/google-map.min.js"></script>
-        <script type="text/javascript" src="js/components/wow.min.js"></script>
-        <!--========== END JAVASCRIPTS ==========-->
+                <!-- INICIO: Nuevos Bloques de Métricas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    
+                    <!-- Métrica Clave -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-xl text-center border border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-300 mb-2">Mecanismo de Valor Fundamental</h3>
+                        <p class="text-3xl font-bold text-emerald-400">
+                            1 kg
+                            <span class="text-gray-400 font-normal mx-2">de Plástico Reciclado</span>
+                            =
+                            10
+                            <span class="text-gray-400 font-normal ml-2">Créditos</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mt-2">Los precios por token se derivan del valor estimado por kg de plástico eliminado.</p>
+                    </div>
 
-    </body>
-    <!-- End Body -->
+                    <!-- Precio Actual (Actualización Manual) -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-300 mb-3 text-center">Precio Actual (Mercado Público)</h3>
+                        <div class="flex justify-around items-center">
+                            <div class="text-center">
+                                <span class="text-sm text-emerald-400 font-bold">CSR</span>
+                                <p id="current-csr-price" class="text-3xl font-bold text-white">$ --.----</p>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-sm text-cyan-400 font-bold">CSR25</span>
+                                <p id="current-csr25-price" class="text-3xl font-bold text-white">$ --.----</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3 text-center">Exchanges LATOKEN/LBANK</p>
+                    </div>
+
+                </div>
+                <!-- FIN: Nuevos Bloques de Métricas -->
+        
+                <!-- Grid de Proyecciones -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+                    <!-- Columna CSR (Original) -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-2xl border border-gray-700/50">
+                        <h2 class="text-3xl font-bold mb-1 text-emerald-400">CSR (Original)</h2>
+                        <p class="text-lg text-gray-300 mb-4">Activo Heredado (Reserva de Valor)</p>
+                        
+                        <!-- Gráfico CSR -->
+                        <div class="chart-container mb-6">
+                            <canvas id="csrChart"></canvas>
+                        </div>
+        
+                        <!-- Resumen de Escenarios CSR -->
+                        <div class="space-y-4">
+                            <!-- Escenario Moderado -->
+                            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+                                <h4 class="text-xl font-semibold text-yellow-400 flex justify-between items-center">
+                                    <span>Escenario Moderado</span>
+                                    <span class="text-2xl font-bold">$0.15</span>
+                                </h4>
+                                <p class="text-gray-300 text-sm mt-1">Alcanza paridad con el valor de mercado actual de otros créditos de plástico (aprox. $1.50/kg).</p>
+                            </div>
+                            <!-- Escenario Favorable -->
+                            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+                                <h4 class="text-xl font-semibold text-orange-400 flex justify-between items-center">
+                                    <span>Escenario Favorable</span>
+                                    <span class="text-2xl font-bold">$0.50</span>
+                                </h4>
+                                <p class="text-gray-300 text-sm mt-1">Impulsado por la escasez, alcanza el rango superior del mercado actual (aprox. $5.00/kg).</p>
+                            </div>
+                            <!-- Escenario Excepcional -->
+                            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+                                <h4 class="text-xl font-semibold text-red-400 flex justify-between items-center">
+                                    <span>Escenario Excepcional</span>
+                                    <span class="text-2xl font-bold">$1.20</span>
+                                </h4>
+                                <p class="text-gray-300 text-sm mt-1">Se consolida como activo premium debido al "supply squeeze" y fuerte recompra (Estimación > $12.00/kg).</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Columna CSR25 (Utilidad) -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-2xl border border-gray-700/50">
+                        <h2 class="text-3xl font-bold mb-1 text-cyan-400">CSR25 (Utilidad)</h2>
+                        <p class="text-lg text-gray-300 mb-4">Nuevo Estándar (Crédito de Compensación)</p>
+                        
+                        <!-- Gráfico CSR25 -->
+                        <div class="chart-container mb-6">
+                            <canvas id="csr25Chart"></canvas>
+                        </div>
+        
+                        <!-- Resumen de Escenarios CSR25 -->
+                        <div class="space-y-4">
+                            <!-- Escenario Moderado -->
+                            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+                                <h4 class="text-xl font-semibold text-cyan-400 flex justify-between items-center">
+                                    <span>Escenario Moderado</span>
+                                    <span class="text-2xl font-bold">$0.10</span>
+                                </h4>
+                                <p class="text-gray-300 text-sm mt-1">Supera la penalización de la UE (0.80 €/kg) y se establece como referencia (aprox. $1.00/kg).</p>
+                            </div>
+                            <!-- Escenario Favorable -->
+                            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+                                <h4 class="text-xl font-semibold text-blue-400 flex justify-between items-center">
+                                    <span>Escenario Favorable</span>
+                                    <span class="text-2xl font-bold">$0.30</span>
+                                </h4>
+                                <p class="text-gray-300 text-sm mt-1">La demanda masiva por regulaciones globales lo consolida como el principal crédito (aprox. $3.00/kg).</p>
+                            </div>
+                            <!-- Escenario Excepcional -->
+                            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+                                <h4 class="text-xl font-semibold text-indigo-400 flex justify-between items-center">
+                                    <span>Escenario Excepcional</span>
+                                    <span class="text-2xl font-bold">$0.75</span>
+                                </h4>
+                                <p class="text-gray-300 text-sm mt-1">Activo indispensable para la economía circular con adopción global masiva (Estimación > $7.50/kg).</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                </div>
+        
+            </div>
+        </section>
+        
+        <!-- 5. PRECEDENTE DEL CRÉDITO DE CARBONO (ACTUALIZADA con instrucción de URL) -->
+        <section id="credito-carbono-historia" class="py-16 sm:py-24 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-white flex items-center justify-center">
+                    <i data-lucide="history" class="w-10 h-10 mr-4 text-emerald-400"></i>
+                    El Precedente Histórico: La Evolución del Crédito de Carbono
+                </h2>
+                
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Columna de Texto -->
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-300">
+                            La formalización de los Créditos de Plástico CSR/CSR25 sigue un modelo de mercado de compensación que ha demostrado ser exitoso a nivel global: el <span class="font-bold text-emerald-400">Crédito de Carbono.</span>
+                        </p>
+                        <p class="text-lg text-gray-300">
+                            Mientras en 2005 compensar una tonelada de CO2 costaba $5, <strong class="text-emerald-300">hoy cuesta más de $60.</strong> Este crecimiento exponencial impulsó el mercado hasta mover aproximadamente <strong class="text-emerald-300">$300 mil millones de dólares anuales</strong>.
+                        </p>
+                        <p class="text-sm text-gray-400 italic">
+                            <strong class="text-white">Dato Clave:</strong> Empresas como Tesla generaron <strong class="text-white">$5 mil millones</strong> en ventas de créditos de carbono en los últimos cinco años, demostrando el valor regulatorio.
+                        </p>
+                        <p class="text-lg font-bold text-emerald-400">
+                            Se espera que el mercado de Créditos de Plástico alcance al menos el 10% del mercado de carbono, estimándose un crecimiento de <strong class="text-emerald-300">$30 mil millones anuales</strong> en los próximos 3-5 años.
+                        </p>
+                    </div>
+
+                    <!-- Columna de Imagen (Gráfico) -->
+                    <div>
+                        <!-- INICIO DEL CAMBIO: Encapsular la imagen en un enlace -->
+                        <a href="https://www.reuters.com/breakingviews/carbon-markets-have-long-shot-redemption-2024-01-18/" target="_blank" title="Ver la fuente de la información sobre Créditos de Carbono">
+                            <img 
+                                src="https://graphics.reuters.com/BRV-BRV/lbpgbggobvq/chart.png" 
+                                alt="Gráfico de la evolución histórica del precio y volumen del crédito de carbono" 
+                                class="w-full h-auto rounded-xl shadow-2xl border-2 border-gray-700 hover:border-emerald-400 transition duration-300" 
+                                onerror="this.onerror=null;this.src='https://placehold.co/800x400/4b5563/ffffff?text=Gráfico+de+Carbono+No+disponible';"
+                            />
+                        </a>
+                        <!-- FIN DEL CAMBIO -->
+                        <!-- NUEVO: Enlace de fuente clicable -->
+                        <p class="text-center mt-3 text-sm text-gray-400">
+                            <a href="https://www.reuters.com/breakingviews/carbon-markets-have-long-shot-redemption-2024-01-18/" target="_blank" class="hover:text-emerald-400 transition duration-300 font-semibold">
+                                Fuente: Datos Históricos de Precios de Carbono
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Testimonios de Autoridad (Carrusel Optimizado) (Sexta sección) --><section class="py-16 sm:py-24 bg-gray-700 text-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-white">
+                    Validación Global. Infraestructura Industrial de Miles de Millones de Dólares.
+                </h2>
+                <p class="text-center text-gray-300 mb-12 max-w-3xl mx-auto">
+                    Nuestras operaciones son la base de la cadena de valor circular de líderes energéticos, logísticos y de hospitalidad a nivel global, <strong class="text-emerald-300">y de miles de familias</strong> empoderadas que ganan un sustento por limpiar el planeta.
+                </p>
+
+                <!-- Contenedor del Carrusel -->
+                <div class="relative">
+                    <div id="carousel" class="carousel-container flex overflow-x-auto snap-x snap-mandatory space-x-6 pb-4">
+
+                        <!-- 7 Items del Carrusel (Copy Optimizado con citas directas) -->
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"Una forma valiosa y viable para alcanzar las mayores tasas de reciclado... un compromiso con un futuro sostenible y circular."</p>
+                            <p class="font-semibold text-sm text-white">Phil Turley</p>
+                            <p class="text-xs text-gray-400">Director General de Economía Circular Global del Plástico, Shell</p>
+                        </div>
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"Shell está deseando trabajar con Corsair y procesar su aceite de pirólisis, suministrando así a nuestros clientes más productos químicos circulares."</p>
+                            <p class="font-semibold text-sm text-white">Niels Bouwhuis</p>
+                            <p class="text-xs text-gray-400">Director de Marketing, Shell Chemicals</p>
+                        </div>
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"El aceite de pirólisis de más alta calidad del mercado actual, <strong class="text-emerald-300">'el mejor que han visto'</strong> en términos de pureza."</p>
+                            <p class="font-semibold text-sm text-white">Industria Petroquímica</p>
+                            <p class="text-xs text-gray-400">Comprador Clave, Shell (Declaración a la Industria)</p>
+                        </div>
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"COUNT está encantado de asociarse con Corsair en una estrategia global para dar nueva vida a los residuos plásticos."</p>
+                            <p class="font-semibold text-sm text-white">Simon Housecroft</p>
+                            <p class="text-xs text-gray-400">Director de ESG, COUNT Energy Trading (Bróker de $3B)</p>
+                        </div>
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"Creemos que CORSAIR seguirá siendo uno de los líderes mundiales en este sector del mercado, <strong class="text-emerald-300">con planes de expansión ambiciosos</strong>."</p>
+                            <p class="font-semibold text-sm text-white">Simon Housecroft</p>
+                            <p class="text-xs text-gray-400">Director de Materiales Sostenibles, KERA Energy AG</p>
+                        </div>
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"Esta asociación con Corsair Group International nos permite ofrecer un mayor valor a nuestros clientes al tiempo que creamos un impacto medioambiental duradero."</p>
+                            <p class="font-semibold text-sm text-white">Vikas Mittal</p>
+                            <p class="text-xs text-gray-400">Director General, Diversey Hygiene (Tailandia)</p>
+                        </div>
+                        <div class="carousel-item p-6 bg-gray-800 rounded-xl shadow-lg border-l-4 border-emerald-500 min-w-[90%] md:min-w-[45%] lg:min-w-[30%]">
+                            <i data-lucide="quote" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                            <p class="text-lg italic text-gray-300 mb-4">"Somos el PRIMER Aeropuerto Neutro en Plástico Certificado del Mundo gracias a este servicio."</p>
+                            <p class="font-semibold text-sm text-white">Wattay International Airport</p>
+                            <p class="text-xs text-gray-400">Socio de Certificación</p>
+                        </div>
+
+                    </div>
+                    <!-- Botones de Navegación del Carrusel --><button id="prevBtn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-900 p-3 rounded-full shadow-lg border border-gray-600 hover:bg-gray-800 transition duration-300 z-10 hidden md:block">
+                        <i data-lucide="chevron-left" class="w-6 h-6 text-gray-300"></i>
+                    </button>
+                    <button id="nextBtn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-900 p-3 rounded-full shadow-lg border border-gray-600 hover:bg-gray-800 transition duration-300 z-10 hidden md:block">
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Socios Clave (REDISEÑADA con Tarjetas Detalladas e Imagen, ahora son enlaces <a>) -->
+        <section id="socios" class="py-16 sm:py-24 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-extrabold text-center mb-16 text-white">
+                    Nuestra Ecosistema Circular Certificado ISCC PLUS
+                </h2>
+
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-center mb-8 text-emerald-400 uppercase tracking-wider">Certificación y Compradores Clave</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                        
+                        <!-- Tarjeta de Certificación ISCC PLUS (Certificación) - AHORA ES UN ENLACE -->
+                        <a href="https://hub.iscc-system.org//FileHandler/download/certificateFile/OTMxMTNfSVNDQy1QTFVTLUNlcnQtTVkyMzEtMjAyNTAwMTM=" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-lime-400/50 hover:border-lime-300 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                    <div class="w-12 h-12 flex-shrink-0">
+                                        <!-- Usando icono Lucide -->
+                                        <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-700 rounded-lg border-2 border-lime-400/70">
+                                            <i data-lucide="certificación" class="w-8 h-8 text-lime-400"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-lime-400">ISCC PLUS Auditado</h4>
+                                        <p class="text-sm text-gray-400 mt-1">
+                                            El estándar de sostenibilidad más alto. Garantiza que toda la cadena de valor, desde el residuo hasta el producto final, es auditable y transparente.
+                                        </p>
+                                    </div>
+                            </div>
+                        </a>
+
+                        <!-- Shell (Comprador/Energía) - AHORA ES UN ENLACE -->
+                        <a href="https://fourleafdigital.shell.com/webapps/Shell_Chemicals_Recycling/" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/f97316/ffffff?text=SHELL" 
+                                        alt="Logo Shell" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-orange-400">Shell</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Comprador clave y socio estratégico. Utiliza nuestro bioaceite, reconocido como "el más puro del mercado", para fabricar plásticos circulares.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <!-- COUNT Trading (Distribución/Logística) - AHORA ES UN ENLACE -->
+                        <a href="https://www.countgroup.com/" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/06B6D4/030712?text=COUNT" 
+                                        alt="Logo COUNT Trading" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-cyan-400">COUNT Energy Trading ($3B)</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Bróker petrolero líder que distribuye nuestro bioaceite a las mayores petroquímicas globales. Valida la escala y calidad comercial.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <!-- Diversey (Químicos/Higiene) - AHORA ES UN ENLACE -->
+                        <a href="https://www.solenis.com/es-mx/resources/news-releases/2024/diversey-a-solenis-company-and-corsair-group-international-sign-mou-to-advance-circular-economy-and-csr-plastic-credits-in-thailand/" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/3B82F6/ffffff?text=DIV" 
+                                        alt="Logo Diversey" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-blue-400">Diversey (Solenis)</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Socio de sostenibilidad B2B que utiliza los CSR Credits para compensar sus envases químicos y liderar la higiene circular.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <!-- KERA Energy (Distribución Global) - AHORA ES UN ENLACE -->
+                        <a href="https://keraenergy.com/corsair-signs-strategic-partnership-with-kera-energy-for-global-distribution-of-pyrolysis-oil/" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/FCD34D/374151?text=KERA" 
+                                        alt="Logo KERA Energy" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-yellow-400">KERA Energy AG</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Socio estratégico para la distribución global. Clave en la expansión del bioaceite a mercados de Europa, Asia y América.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Gioiella (Lácteos/Food) - AHORA ES UN ENLACE -->
+                        <a href="https://gioiella.com/certificazioni/" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/EC4899/374151?text=GIO" 
+                                        alt="Logo Gioiella" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-pink-400">Gioiella</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Productor lácteo italiano y el mayor compensador conocido, con <strong class="text-pink-300">3.1 millones de kilos</strong> de plástico retirados a través de CSR.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="mb-16">
+                    <h3 class="text-xl font-bold text-center mb-8 text-gray-400 uppercase tracking-wider">Socios de Adopción y Hotelería (Plástico Neutral Certificado)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                        
+                        <!-- Wattay Airport (Aviación/Viajes) - AHORA ES UN ENLACE -->
+                        <a href="https://www.google.com/search?q=Wattay+International+Airport+Plastic+Neutral" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/8B5CF6/ffffff?text=WIA" 
+                                        alt="Logo Wattay Airport" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-indigo-400">Wattay International Airport</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        El <strong class="text-indigo-300">PRIMER Aeropuerto del Mundo</strong> certificado como Plástico Neutral gracias a este servicio.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Novotel (Hotelería) - AHORA ES UN ENLACE -->
+                        <a href="https://www.google.com/search?q=Novotel+Plastic+Recycling" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/A855F7/ffffff?text=NOVO" 
+                                        alt="Logo Novotel" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-purple-400">Novotel</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        El hotel entrega su residuo plástico directamente a Corsair para ser reciclado en bioaceite avanzado, evitando que contamine el medio ambiente.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <!-- Marriott (Hotelería) - AHORA ES UN ENLACE -->
+                        <a href="https://www.google.com/search?q=Marriott+Plastic+Recycling+Corsair" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/EF4444/ffffff?text=MAR" 
+                                        alt="Logo Marriott" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-red-400">Marriott</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        El hotel participa en el programa de reciclaje directo de residuos con Corsair, transformando el plástico recolectado en bioaceite avanzado como parte de su iniciativa Serve 360.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <!-- Hyatt (Hotelería) - AHORA ES UN ENLACE -->
+                        <a href="https://www.google.com/search?q=Hyatt+Plastic+Recycling+Corsair" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/10B981/ffffff?text=HYATT" 
+                                        alt="Logo Hyatt" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-green-400">Hyatt</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Colaboración directa con Corsair para la recolección y reciclaje de sus residuos plásticos internos, convirtiéndolos en bioaceite avanzado.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Hilton Garden Inn (Hotelería) - AHORA ES UN ENLACE -->
+                        <a href="https://www.google.com/search?q=Hilton+Garden+Inn+Plastic+Recycling" target="_blank" class="partner-detail-card block bg-gray-800 p-4 rounded-xl shadow-lg border-2 border-emerald-600/50 hover:border-emerald-400 transition duration-300 cursor-pointer">
+                            <div class="flex items-start space-x-4 w-full">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img 
+                                        src="https://placehold.co/48x48/9CA3AF/ffffff?text=HG" 
+                                        alt="Logo Hilton Garden Inn" 
+                                        class="w-full h-full object-contain rounded-lg border border-gray-700 p-1"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/374151/ffffff?text=Logo';" 
+                                    />
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-400">Hilton Garden Inn</h4>
+                                    <p class="text-sm text-gray-400 mt-1">
+                                        Colaboración oficial con Corsair para la recolección y reciclaje de su residuo plástico por pirólisis, apoyando su misión "Travel with Purpose" para reducir los vertederos.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 8. Preguntas Frecuentes (FAQ) (Octava sección) --><section id="preguntas" class="py-16 sm:py-24 bg-gray-700 text-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-white">
+                    Preguntas Frecuentes (FAQ)
+                </h2>
+                <div class="space-y-4">
+                    
+                    <!-- Pregunta 1: ESTRUCTURA MODIFICADA -->
+                    <div class="bg-gray-800 rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center faq-toggle" data-target="faq1">
+                            <h3 class="text-xl font-semibold text-white">¿Qué es exactamente un Crédito de Plástico CSR?</h3>
+                            <i data-lucide="plus" class="w-6 h-6 text-emerald-400 transition-transform duration-300 icon-toggle-indicator"></i>
+                        </div>
+                        <!-- Contenedor de transición: ahora usa la clase .faq-content -->
+                        <div id="faq1" class="faq-content">
+                            <!-- Contenido interno con espaciado/borde (para que se transicione con la altura) -->
+                            <div class="mt-4 border-t border-gray-600 pt-4 text-gray-300">
+                                <p>Es un <span class="text-emerald-400 font-bold">recibo digital inmutable</span> que certifica la eliminación verificada de 100 gramos de plástico del medio ambiente. Su valor se basa en el servicio de limpieza realizado por el Grupo Corsair, auditado y registrado en la blockchain para garantizar transparencia.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2: ESTRUCTURA MODIFICADA -->
+                    <div class="bg-gray-800 rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center faq-toggle" data-target="faq2">
+                            <h3 class="text-xl font-semibold text-white">¿Por qué se considera un "activo valioso"?</h3>
+                            <i data-lucide="plus" class="w-6 h-6 text-emerald-400 transition-transform duration-300 icon-toggle-indicator"></i>
+                        </div>
+                        <!-- Contenedor de transición: ahora usa la clase .faq-content -->
+                        <div id="faq2" class="faq-content">
+                            <!-- Contenido interno con espaciado/borde -->
+                            <div class="mt-4 border-t border-gray-600 pt-4 text-gray-300">
+                                <p>Se considera valioso porque representa una necesidad creciente del mercado: la compensación de la huella plástica corporativa. Las nuevas regulaciones (<span class="text-emerald-400 font-bold">Responsabilidad Extendida del Productor, ERP</span>) <strong class="text-emerald-300">impulsa una demanda obligatoria</strong>, transformando los créditos en <strong class="text-emerald-300">un activo digital tangible con respaldo industrial real.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3: ESTRUCTURA MODIFICADA -->
+                    <div class="bg-gray-800 rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center faq-toggle" data-target="faq3">
+                            <h3 class_pt-4="text-xl font-semibold text-white">¿Es esto una inversión o un producto financiero?</h3>
+                            <i data-lucide="plus" class="w-6 h-6 text-emerald-400 transition-transform duration-300 icon-toggle-indicator"></i>
+                        </div>
+                        <!-- Contenedor de transición: ahora usa la clase .faq-content -->
+                        <div id="faq3" class="faq-content">
+                            <!-- Contenido interno con espaciado/borde -->
+                            <div class="mt-4 border-t border-gray-600 pt-4 text-gray-300">
+                                <p>No. El servicio que usted contrata es el de <span class="text-emerald-400 font-bold">eliminación verificada de residuos de plástico</span>. Los Créditos CSR son el <strong class="text-emerald-300">recibo digital</strong> de este servicio medioambiental. No es un producto financiero y no requiere licencia para su adquisición.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4: ESTRUCTURA MODIFICADA -->
+                    <div class="bg-gray-800 rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center faq-toggle" data-target="faq4">
+                            <h3 class_pt-4="text-xl font-semibold text-white">¿Cómo sé que el plástico realmente se está eliminando?</h3>
+                            <i data-lucide="plus" class="w-6 h-6 text-emerald-400 transition-transform duration-300 icon-toggle-indicator"></i>
+                        </div>
+                        <!-- Contenedor de transición: ahora usa la clase .faq-content -->
+                        <div id="faq4" class="faq-content">
+                            <!-- Contenido interno con espaciado/borde -->
+                            <div class="mt-4 border-t border-gray-600 pt-4 text-gray-300">
+                                <p>Toda la operación cuenta con la certificación <span class="text-emerald-400 font-bold">ISCC PLUS (el estándar más alto).</span> Además, la calidad de nuestro bioaceite es reconocida por <strong class="text-emerald-300">Shell como "el mejor que han visto"</strong>. Esto demuestra la seriedad y el rigor de toda nuestra cadena de valor. Cada Crédito CSR se registra en la tecnología blockchain, lo que garantiza que la eliminación es auditable, transparente y no puede ser contada dos veces.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. CTA Final (Optimizado) --><section id="contacto" class="py-20 bg-emerald-600 text-white">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-6">
+                    ¿Listo para ser parte activa de la Solución Global?
+                </h2>
+                <p class="text-xl mb-8">
+                    <strong class="text-white">Democratiza tu impacto.</strong> Financia la limpieza del planeta y obtén un beneficio tangible desde solo 10 €.
+                </p>
+                <!-- CTA Footer - Abre Modal (AÑADIDO CTA-GLOW-EFFECT) -->
+                <a href="#" class="cta-redirect-btn inline-block px-12 py-4 bg-gray-900 text-white text-xl font-bold rounded-xl shadow-2xl hover:bg-gray-700 cta-glow-effect">
+                    Quiero ser parte de la solución
+                </a>
+            </div>
+        </section>
+
+        <!-- BOTÓN VOLVER ARRIBA (NUEVO) -->
+        <button id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" 
+            class="fixed bottom-6 right-6 p-3 bg-emerald-500 text-white rounded-full shadow-lg opacity-0 translate-y-4 hover:bg-emerald-400 z-40" 
+            aria-label="Volver arriba">
+            <i data-lucide="arrow-up" class="w-6 h-6"></i>
+        </button>
+
+    </main>
+
+    <!-- Footer y Disclaimer --><footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Sección de Navegación Simple --><div class="text-center mb-8">
+                <p class="text-sm text-gray-400">&copy; 2025 Todos los derechos reservados.</p>
+            </div>
+
+            <!-- Disclaimer --><div class="border-t border-gray-700 pt-8 text-xs text-gray-400">
+                <h3 class="font-bold text-sm text-red-400 mb-2">DESCARGO DE RESPONSABILIDAD</h3>
+                <p>
+                    <span class="font-bold text-white">Somos socios independientes no asesores financieros.</span> El servicio que usted adquiere es la <span class="font-bold text-white">eliminación verificada de residuos de plástico</span>. Los CSR plastic credit son la muestra (el <strong class="text-white">recibo digital</strong>) de la evidencia de la misión combinada de Amplivo y El Grupo Corsair para eliminar el plástico de nuestro mundo. Como tal, <span class="font-bold text-white">no hace falta una licencia financiera para su adquisición.</span>
+                </p>
+                <p class="mt-2">
+                    Aunque este no es un sitio web oficial de CORSAIR o AMPLIVO, toda la información proporcionada aquí es precisa y está alineada con el contenido disponible en los sitios web oficiales de CORSAIR & AMPLIVO así como con sus canales de comunicación oficiales.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE REDIRECCIÓN (POP-UP) -->
+    <div id="redirectModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div id="modalContent" class="bg-gray-800 p-8 rounded-2xl shadow-2xl border-2 border-emerald-500 max-w-sm mx-4 transform transition-all duration-300 scale-95">
+            <h3 class="text-2xl font-bold mb-4 text-emerald-400 flex items-center">
+                <i data-lucide="external-link" class="w-6 h-6 mr-3"></i>
+                Atención: Salida de Amplivo
+            </h3>
+            <p class="text-gray-300 mb-6">
+                Estás a punto de ser redirigido a la plataforma oficial de Amplivo. Allí podrás completar tu registro y efectuar la adquisición del servicio.
+            </p>
+            <div class="flex justify-end space-x-3">
+                <button id="closeModalBtn" class="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition duration-300">
+                    Cancelar
+                </button>
+                <button id="confirmRedirectBtn" data-target-url="https://amplivo.com/sponsor/ARMAN202404" class="px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-500 transition duration-300">
+                    Continuar a Amplivo
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- FIN MODAL -->
+
+    <!-- Script para la funcionalidad del carrusel, acordeón y modal (Optimizados) -->
+    <script>
+        window.onload = function() {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            }
+
+            // =========================================================
+            // INICIO: CÓDIGO DE GRÁFICOS INTEGRADO
+            // =========================================================
+            if (typeof Chart !== 'undefined') {
+                // --- Configuración global de Chart.js para modo oscuro ---
+                Chart.defaults.color = '#e5e7eb'; // Color de texto (etiquetas)
+                Chart.defaults.borderColor = '#4b5563'; // Color de las líneas de la cuadrícula
+
+                // --- Gráfico 1: La Explosión de la Producción (Line Chart) ---
+                const ctxProdExplosion = document.getElementById('productionExplosionChart')?.getContext('2d');
+                if (ctxProdExplosion) {
+                    new Chart(ctxProdExplosion, {
+                        type: 'line',
+                        data: {
+                            labels: ['1950', '2000', 'Actual'],
+                            datasets: [{
+                                label: 'Producción Anual (Millones de Toneladas)',
+                                data: [1.5, 234, 430], 
+                                backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                                borderColor: 'rgba(56, 189, 248, 1)',
+                                borderWidth: 3,
+                                pointBackgroundColor: 'rgba(56, 189, 248, 1)',
+                                pointRadius: 5,
+                                tension: 0.4 // Curva exponencial
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Millones de Toneladas'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // --- Gráfico 2: Hecho para Desechar (Anual) (Bar Chart) ---
+                const ctxProdVsWaste = document.getElementById('prodVsWasteChart')?.getContext('2d');
+                if (ctxProdVsWaste) {
+                    new Chart(ctxProdVsWaste, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Producción Anual (2024)', 'Residuos Generados (2024)'],
+                            datasets: [{
+                                label: 'Millones de Toneladas',
+                                data: [430, 350],
+                                backgroundColor: [
+                                    'rgba(59, 130, 246, 0.7)', // Azul (Producción)
+                                    'rgba(239, 68, 68, 0.7)'   // Rojo (Residuos)
+                                ],
+                                borderColor: [
+                                    'rgba(59, 130, 246, 1)',
+                                    'rgba(239, 68, 68, 1)'
+                                ],
+                                borderWidth: 2,
+                                barPercentage: 0.7,
+                                categoryPercentage: 0.7
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Millones de Toneladas'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // --- Gráfico 3: La Paradoja del Reciclaje (Doughnut Chart) ---
+                const ctxRecyclingParadox = document.getElementById('recyclingParadoxChart')?.getContext('2d');
+                if (ctxRecyclingParadox) {
+                    new Chart(ctxRecyclingParadox, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Reciclado (9%)', 'No Reciclado (91%)'],
+                            datasets: [{
+                                label: 'Destino del Plástico Histórico',
+                                data: [9, 91],
+                                backgroundColor: [
+                                    'rgba(34, 197, 94, 0.7)', // Verde
+                                    'rgba(239, 68, 68, 0.7)'  // Rojo
+                                ],
+                                borderColor: [
+                                    'rgba(34, 197, 94, 1)',
+                                    'rgba(239, 68, 68, 1)'
+                                ],
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // --- Gráfico 4: Proyección de Residuos (Bar Chart) ---
+                const ctxFutureWaste = document.getElementById('futureWasteChart')?.getContext('2d');
+                if (ctxFutureWaste) {
+                    new Chart(ctxFutureWaste, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Residuos Anuales (Actual)', 'Proyección Residuos (2060)'],
+                            datasets: [{
+                                label: 'Millones de Toneladas',
+                                data: [350, 1050], 
+                                backgroundColor: [
+                                    'rgba(168, 85, 247, 0.7)', // Púrpura
+                                    'rgba(249, 115, 22, 0.7)'   // Naranja
+                                ],
+                                borderColor: [
+                                    'rgba(168, 85, 247, 1)',
+                                    'rgba(249, 115, 22, 1)'
+                                ],
+                                borderWidth: 2,
+                                barPercentage: 0.7,
+                                categoryPercentage: 0.7
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Millones de Toneladas'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            // =========================================================
+            // FIN: CÓDIGO DE GRÁFICOS INTEGRADO
+            // =========================================================
+
+
+            // =========================================================
+            // LÓGICA DEL MODAL (CÓDIGO EXISTENTE)
+            // =========================================================
+            const modal = document.getElementById('redirectModal');
+            const modalContent = document.getElementById('modalContent');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const confirmRedirectBtn = document.getElementById('confirmRedirectBtn');
+            const redirectButtons = document.querySelectorAll('.cta-redirect-btn');
+            let targetUrl = '';
+
+            const openModal = (url) => {
+                targetUrl = url || confirmRedirectBtn.getAttribute('data-target-url');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+            };
+
+            const closeModal = () => {
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                }, 300);
+            };
+
+            redirectButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+
+            confirmRedirectBtn.addEventListener('click', () => {
+                window.location.href = targetUrl || confirmRedirectBtn.getAttribute('data-target-url');
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+                // Si el clic es fuera del contenido del modal pero dentro del fondo (modal), se cierra
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // =========================================================
+            // LÓGICA DEL CARRUSEL DE TESTIMONIOS (SOLO CONTROL POR BOTONES)
+            // =========================================================
+            const carousel = document.getElementById('carousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            const getScrollWidth = () => {
+                const itemElement = document.querySelector('.carousel-item');
+                if (!itemElement) return 0;
+                // Ancho del ítem + gap-x-6 (24px)
+                return itemElement.offsetWidth + 24; 
+            };
+
+            const scrollCarousel = (direction) => {
+                const scrollAmount = direction === 'next' ? getScrollWidth() : -getScrollWidth();
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            };
+            
+            if (prevBtn && nextBtn && carousel) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    scrollCarousel('prev');
+                });
+
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    scrollCarousel('next');
+                });
+            }
+            
+            // Navegación por teclado (flechas)
+            document.addEventListener('keydown', (e) => {
+                // Solo activamos la navegación si el carrusel es visible en la pantalla
+                if (!carousel) return;
+                const rect = carousel.getBoundingClientRect();
+                const isCarouselVisible = (
+                    rect.top < window.innerHeight &&
+                    rect.bottom > 0
+                );
+
+                if (isCarouselVisible) {
+                    if (e.key === 'ArrowRight') {
+                        scrollCarousel('next');
+                        e.preventDefault(); 
+                    } else if (e.key === 'ArrowLeft') {
+                        scrollCarousel('prev');
+                        e.preventDefault(); 
+                    }
+                }
+            });
+            
+            // =========================================================
+            // LÓGICA DEL CARRUSEL DE PROYECCIONES (ELIMINADO)
+            // =========================================================
+            /* ELIMINADO EL SCRIPT DEL CARRUSEL DE PRECIOS ANTERIOR */
+
+
+            // =========================================================
+            // LÓGICA DE LOS NUEVOS GRÁFICOS DE PROYECCIÓN (AÑADIDO)
+            // =========================================================
+            if (typeof Chart !== 'undefined') {
+
+                // =========================================================
+                // INICIO: PRECIOS MANUALES (Actualizar aquí)
+                // =========================================================
+                const precioActualCSR = 0.003; // <-- Poner el precio actual de CSR
+                const precioActualCSR25 = 0.08; // <-- Poner el precio actual de CSR25 (o el mismo si es igual)
+                // =========================================================
+                // FIN: PRECIOS MANUALES
+
+                // --- Formateador de precios ---
+                const formatPrice = (price) => {
+                    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 4 }).format(price);
+                };
+
+                // --- Inyectar precios manuales en el HTML ---
+                const csrPriceElement = document.getElementById('current-csr-price');
+                const csr25PriceElement = document.getElementById('current-csr25-price');
+
+                if (csrPriceElement) {
+                    csrPriceElement.textContent = formatPrice(precioActualCSR);
+                }
+                if (csr25PriceElement) {
+                    csr25PriceElement.textContent = formatPrice(precioActualCSR25);
+                }
+
+
+                // --- Gráfico CSR (Proyección) ---
+                const csrData = {
+                    labels: ['Moderado', 'Favorable', 'Excepcional'],
+                    datasets: [{
+                        label: 'Estimación 2030 (USD por Token CSR)',
+                        data: [0.15, 0.50, 1.20],
+                        backgroundColor: [
+                            'rgba(250, 204, 21, 0.7)',  // text-yellow-400
+                            'rgba(251, 146, 60, 0.7)', // text-orange-400
+                            'rgba(248, 113, 113, 0.7)' // text-red-400
+                        ],
+                        borderColor: [
+                            '#facc15',
+                            '#fb923c',
+                            '#f87171'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 4,
+                    }]
+                };
+
+                // --- Gráfico CSR25 (Proyección) ---
+                const csr25Data = {
+                    labels: ['Moderado', 'Favorable', 'Excepcional'],
+                    datasets: [{
+                        label: 'Estimación 2030 (USD por Token CSR25)',
+                        data: [0.10, 0.30, 0.75],
+                        backgroundColor: [
+                            'rgba(34, 211, 238, 0.7)', // text-cyan-400
+                            'rgba(59, 130, 246, 0.7)', // text-blue-500
+                            'rgba(129, 140, 248, 0.7)' // text-indigo-400
+                        ],
+                        borderColor: [
+                            '#22d3ee',
+                            '#3b82f6',
+                            '#818cf8'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 4,
+                    }]
+                };
+
+                // --- Opciones Comunes para Gráficos de Proyección ---
+                const commonOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#9ca3af',
+                                callback: (value) => '$' + value.toFixed(2)
+                            },
+                            grid: {
+                                color: '#374151', // Rejilla gris oscuro
+                                drawBorder: false,
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#d1d5db', // Texto del eje X más brillante
+                                font: {
+                                    weight: '600',
+                                    size: 14,
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                };
+
+                // --- Renderizar Gráfico CSR ---
+                const ctxCsr = document.getElementById('csrChart')?.getContext('2d');
+                if (ctxCsr) {
+                    new Chart(ctxCsr, {
+                        type: 'bar',
+                        data: csrData,
+                        options: commonOptions
+                    });
+                }
+
+                // --- Renderizar Gráfico CSR25 ---
+                const ctxCsr25 = document.getElementById('csr25Chart')?.getContext('2d');
+                if (ctxCsr25) {
+                    new Chart(ctxCsr25, {
+                        type: 'bar',
+                        data: csr25Data,
+                        options: commonOptions
+                    });
+                }
+            }
+
+
+            // =========================================================
+            // LÓGICA DEL ACORDEÓN (FAQ) - REFACTORIZADA
+            // =========================================================
+            document.querySelectorAll('.faq-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    const icon = button.querySelector('.icon-toggle-indicator'); 
+                    
+                    if (!targetContent) return;
+
+                    const isOpening = targetContent.classList.contains('max-h-0') || !targetContent.classList.contains('open');
+
+                    // 1. Cierra todos los demás acordeones
+                    document.querySelectorAll('.faq-content.open').forEach(openContent => {
+                        if (openContent !== targetContent) {
+                            openContent.classList.remove('open');
+                            const otherButton = openContent.parentElement.querySelector('.faq-toggle');
+                            if (otherButton) {
+                                const otherIcon = otherButton.querySelector('.icon-toggle-indicator');
+                                if (otherIcon) otherIcon.classList.remove('rotate-45');
+                            }
+                        }
+                    });
+
+                    // 2. Abre o cierra el acordeón actual
+                    if (isOpening) {
+                        targetContent.classList.add('open');
+                        if (icon) icon.classList.add('rotate-45');
+                    } else {
+                        targetContent.classList.remove('open');
+                        if (icon) icon.classList.remove('rotate-45');
+                    }
+                });
+            });
+
+            // =========================================================
+            // LÓGICA DEL BOTÓN "VOLVER ARRIBA" (BACK TO TOP) - NUEVO
+            // =========================================================
+            const backToTopButton = document.getElementById('backToTop');
+
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    // Muestra el botón cuando el desplazamiento vertical supera la altura de la ventana (o un poco menos)
+                    if (window.scrollY > window.innerHeight / 2) {
+                        backToTopButton.classList.remove('opacity-0', 'translate-y-4');
+                        backToTopButton.classList.add('opacity-100', 'translate-y-0');
+                    } else {
+                        backToTopButton.classList.remove('opacity-100', 'translate-y-0');
+                        backToTopButton.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+            }
+            
+            // =========================================================
+            // LÓGICA DEL SMOOTH SCROLL PARA ENLACES DE CABECERA
+            // =========================================================
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    
+                    // No interferir con los botones del modal
+                    if (this.classList.contains('cta-redirect-btn')) {
+                        e.preventDefault(); // El manejador del modal ya se encarga
+                        return;
+                    }
+
+                    const href = this.getAttribute('href');
+                    if (href === "#") { // Evitar que el enlace "#" de la marca haga saltar la página
+                         e.preventDefault();
+                         window.scrollTo({ top: 0, behavior: 'smooth' });
+                         return;
+                    }
+
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        // Ajusta el desplazamiento para tener en cuenta la cabecera fija
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight - 20; // -20 para un poco de margen superior
+
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+        };
+    </script>
+
+</body>
 </html>
